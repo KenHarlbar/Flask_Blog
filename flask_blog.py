@@ -36,7 +36,7 @@ class User(db.Entity):
 class Post(db.Entity):
     id = PrimaryKey(int, auto=True)
     title = Required(str, size=100)
-    date_posted = Required(datetime, default=lambda d: datetime.utcnow)
+    date_posted = Required(datetime, default=datetime.utcnow)
     content = Required(str)
     user_id = Required(User)
 

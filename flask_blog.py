@@ -23,25 +23,27 @@ db = Database()
 
 
 class User(db.Entity):
+    _table_ = 'users'
     id = PrimaryKey(int, auto=True)
-    username = Required(str, unique=True, size=20)
-    email = Required(str, unique=True, size=120)
-    image_file = Required(str, default='default.jpg', size=20)
-    password = Required(str, size=60)
+    username = Required(str, unique=True)
+    email = Required(str, unique=True)
+    image_file = Required(str, default='default.jpg')
+    password = Required(str)
     posts = Set('Post')
 
-    #def __repr__(self):
-        #return f'User("{self.username}", "{self.email}", "{self.image_file}")'
+    def __repr__(self):
+        return f'User("{self.username}", "{self.email}", "{self.image_file}")'
 
 class Post(db.Entity):
+    _table_ = 'posts'
     id = PrimaryKey(int, auto=True)
-    title = Required(str, size=100)
+    title = Required(str)
     date_posted = Required(datetime, default=datetime.utcnow)
     content = Required(str)
     user_id = Required(User)
 
-    #def __repr__(self):
-        #return f"Post('{self.title}', '{self.date_posted}')"
+    def __repr__(self):
+        return f"Post('{self.title}', '{self.date_posted}')"
 
 
 

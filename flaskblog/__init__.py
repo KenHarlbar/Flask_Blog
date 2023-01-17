@@ -30,4 +30,10 @@ login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
 
-from . import routes
+from users.routes import users
+from posts.routes import posts
+from main.routes import main
+
+app.register_blueprint(users)
+app.register_blueprint(posts)
+app.register_blueprint(main)

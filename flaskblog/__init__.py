@@ -26,13 +26,13 @@ Pony(app)
 bcrypt = Bcrypt()
 login_manager = LoginManager(app)
 mail = Mail(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
 
-from users.routes import users
-from posts.routes import posts
-from main.routes import main
+from .users.routes import users
+from .posts.routes import posts
+from .main.routes import main
 
 app.register_blueprint(users)
 app.register_blueprint(posts)

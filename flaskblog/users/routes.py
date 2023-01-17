@@ -2,7 +2,7 @@ from flask import Blueprint as BP
 from flask_login import current_user, login_user, logout_user, login_required
 from flask import redirect, url_for, flash, render_template, request
 from pony.orm import db_session
-from forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
+from .forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from math import ceil
 from flaskblog import bcrypt
 from flaskblog.models import User, Post

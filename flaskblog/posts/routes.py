@@ -1,6 +1,6 @@
 from flask import flash, redirect, url_for, abort, render_template, Blueprint as BP
 from flask_login import login_required, current_user
-from forms import PostForm
+from .forms import PostForm
 from pony.orm import db_session
 from flaskblog.models import Post
 

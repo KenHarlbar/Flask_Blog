@@ -4,6 +4,7 @@ from flask import url_for
 import os
 from PIL import Image
 import secrets
+from flaskblog import app
 
 
 def send_email_token(user):
@@ -12,7 +13,7 @@ def send_email_token(user):
                   sender='noreply@demo.com',
                   recipients=[user.email])
     msg.body = f'''To reset your password, visit the following link:
-    {url_for('reset_token', token=token, _external=True)}
+    {url_for('users.reset_token', token=token, _external=True)}
     If you did not make this request the ignore this email and nothing will change.
     '''
     mail.send(msg)

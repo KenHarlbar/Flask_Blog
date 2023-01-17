@@ -16,7 +16,7 @@ def new_post():
         with db_session:
             post = Post(title=form.title.data, content=form.content.data, author=current_user)
         flash('Your post has been created', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     return render_template('create_post.html', title='New Post',
                            form=form, legend='Update Post')
 
@@ -44,7 +44,7 @@ def update_post(post_id):
             post.title = form.title.data
             post.content = form.content.data
         flash('Your Post has been updated!', 'success')
-        return redirect(url_for('post', post_id=post.id))
+        return redirect(url_for('posts.post', post_id=post.id))
     form.title.data = post.title
     form.content.data = post.content
     return render_template('create_post.html', title='Update Post',
@@ -62,4 +62,4 @@ def delete_post(post_id):
     with db_session:
         Post.delete(post)
     flash('Your post has been deleted', 'success')
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))

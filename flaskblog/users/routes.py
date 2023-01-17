@@ -16,7 +16,7 @@ users = BP('users', __name__)
 @users.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).\
@@ -27,14 +27,14 @@ def register():
                         email=form.email.data)
         flash('Your account has been created, \
                 you are now able to log in', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
 
 
 @users.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.get(email=form.email.data)
@@ -43,7 +43,7 @@ def login():
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else \
-                redirect(url_for('home'))
+                redirect(url_for('main.home'))
         else:
             flash('Login Unsuccessful, please check \
                     username and password', 'danger')
@@ -53,7 +53,7 @@ def login():
 @users.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))
 
 
 @users.route('/account', methods=['GET', 'POST'])
@@ -69,7 +69,7 @@ def account():
             current_user.username = form.username.data
             current_user.email = form.email.data
         flash('Your account has been updated', 'success')
-        return redirect(url_for('account'))
+        return redirect(url_for('users.account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
@@ -102,13 +102,13 @@ def user_posts(username):
 @users.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     form = RequestResetForm()
     if form.validate_on_submit():
         user = User.get(email=form.email.data)
         send_email_token(user)
         flash('An email has been sent with instructions to reset your password', 'info')
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template('reset_password.html',
                            title='Reset Password',
                            form=form)
@@ -117,11 +117,11 @@ def reset_password():
 @users.route('/reset_token/<token>', methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     user = User.verify_reset_token(token)
     if not user:
         flash('This is an invalid or expired token', 'warning')
-        return redirect(url_for('reset_password'))
+        return redirect(url_for('users.reset_password'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).\
@@ -130,7 +130,7 @@ def reset_token(token):
             user.password = hashed_password
         flash('Your password has been updated, \
                 you are now able to log in', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template('reset_token.html',
                            title='Reset Password',
                            form=form)

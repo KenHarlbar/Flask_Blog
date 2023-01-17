@@ -1,27 +1,13 @@
-from os import getenv
 from flask import Flask
 from pony.flask import Pony
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+from .config import Config
 
 
 app = Flask(__name__)
-app.config.update(dict(
-    DEBUG=False,
-    SECRET_KEY='f03d7f578799cd79ac0bfa6db387418e',
-    MAIL_SERVER='smtp.googlemail.com',
-    MAIL_PORT=587,
-    MAIL_USE_TLS=True,
-    MAIL_USERNAME=getenv('EMAIL_USER'),
-    MAIL_PASSWORD=getenv('EMAIL_PASS'),
-    PONY={
-        'provider': 'sqlite',
-        'filename': 'site.db',
-        'create_db': True
-    }
-))
-
+app.config.from_object(Config)
 Pony(app)
 bcrypt = Bcrypt()
 login_manager = LoginManager(app)

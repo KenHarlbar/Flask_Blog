@@ -33,7 +33,7 @@ class User(db.Entity, UserMixin):
             user_id = s.loads(token, max_age=1800)
         except:
             return None
-        return User.get(id=user_id)
+        return User.get(id=user_id['user_id'])
 
     def __repr__(self):
         return f'User("{self.username}", "{self.email}", "{self.image_file}")'

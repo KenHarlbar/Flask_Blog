@@ -3,12 +3,12 @@ body {
     color: #333333;
     margin-top: 5rem;
   }
-  h1, h2, h3, h4, h5, h6 {
-    color: #444444;
-  }
-  ul {
-    margin: 0;
-  }
+h1, h2, h3, h4, h5, h6 {
+  color: #444444;
+}
+ul {
+  margin: 0;
+}
   .bg-steel {
     background-color: #5f788a;
   }
@@ -66,3 +66,7 @@ body {
   .account-heading {
     font-size: 2.5rem;
   }
+
+.top-margin {
+  margin-top: 5%;
+}

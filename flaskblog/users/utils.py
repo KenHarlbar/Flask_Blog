@@ -1,5 +1,6 @@
 from flask_mail import Message
-from flaskblog import mail, current_app
+from flaskblog import mail
+from flask import current_app
 from flask import url_for
 import os
 from PIL import Image

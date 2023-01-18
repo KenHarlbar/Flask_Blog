@@ -1,8 +1,9 @@
 from datetime import datetime
 from flask_login import UserMixin
 from pony.orm import *
-from . import login_manager, app
+from . import login_manager
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
+from flask import current_app
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -23,12 +24,12 @@ class User(db.Entity, UserMixin):
     posts = Set('Post')
 
     def get_reset_token(self):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(current_app.config['SECRET_KEY'])
         return s.dumps({'user_id': self.id})
 
     @staticmethod
     def verify_reset_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(current_app.config['SECRET_KEY'])
         try:
             user_id = s.loads(token, max_age=1800)
         except:
@@ -50,6 +51,5 @@ class Post(db.Entity):
         return f"Post('{self.title}', '{self.date_posted}')"
 
 
-from . import app
-db.bind(**app.config['PONY'])
+db.bind(provider='sqlite', filename='site.db', create_db=True)
 db.generate_mapping(create_tables=True)
